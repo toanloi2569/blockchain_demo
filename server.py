@@ -4,7 +4,7 @@ import sys
 
 from blockchain import Blockchain
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 # Instantiate our Node
 app = Flask(__name__)
@@ -14,6 +14,10 @@ node_identifier = str(uuid4()).replace('-','')
 
 # Instantiate the Blockchain
 blockchain = Blockchain()
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('./index.html', name = 'Loi')
 
 @app.route('/mine', methods=['GET'])
 def mine():
@@ -111,4 +115,5 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--port', default=5000, type=int, help='port listening')
     args = parser.parse_args()
     port = args.port
+    app.debug = True
     app.run(host='0.0.0.0', port=port)
