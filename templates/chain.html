@@ -1,22 +1,24 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
 <h1>List block of BlockChain</h1>
 <ul> 
     {% for block in chain %}
         <li> 
-            Block : {{ block.index }}
+            <strong>Block : {{ block.index }}</strong> 
+            
             <ul>
                 <li>Index: {{ block.index }}</li>
                 <li>Timestamp: {{block.timestamp}}</li>
                 <li>Transactions: 
-                        {% set count = 1 %}
                         {% for transaction in block.transactions %}
                             <ul>
-                                <li>transaction: {{ count }}</li>
-                                {% set count = count+1 %}
+                                <li>transaction: {{ loop.index }}</li>
                                 <ul>
                                     <li>Sender: {{transaction['sender']}}</li>
                                     <li>recipient: {{transaction['recipient']}}</li>
                                     <li>amount: {{transaction['amount']}}</li>
-                          
                                 </ul>
                             </ul>
                         {% endfor %}
@@ -26,3 +28,4 @@
         </li>
     {% endfor %}
 </ul>
+{% endblock %}

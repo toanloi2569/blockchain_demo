@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if flag==1 %}
+    <script>
+        alert("Transaction will be added to Block: {{index}}")
+    </script>
+{% endif %}
+<h1>Enter new transaction</h1>
+<form method="POST">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+                <label><b>Sender  </b></label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" placeholder="Enter Sender" name="sender" required>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-1">
+                <label for="recipient"><b>recipient </b></label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" placeholder="Enter recipient" name="recipient" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1">
+                <label for="amount"><b>amount </b></label>
+            </div>
+            <div class="col-md-3">
+                <input type="number" placeholder="Enter amount" name="amount" required>
+            </div>
+        </div>
+    
+        <button type="submit">Accept</button>
+    </div>
+</form>
+{% endblock %}

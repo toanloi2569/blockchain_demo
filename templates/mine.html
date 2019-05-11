@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Info new Block</h1>
+<ul> 
+    <li> 
+        <strong>New Block Forged</strong> 
+        <ul>
+            <li>Index: {{ block['index'] }}</li>
+            <li>Proof: {{ block['proof'] }}</li>
+            <li>Timestamp: {{block['timestamp']}}</li>
+            <li>Transactions: 
+                    {% for transaction in block.transactions %}
+                        <ul>
+                            <li>transaction: {{ loop.index }}</li>
+                            
+                            <ul>
+                                <li>Sender: {{transaction['sender']}}</li>
+                                <li>recipient: {{transaction['recipient']}}</li>
+                                <li>amount: {{transaction['amount']}}</li>
+                            </ul>
+                        </ul>
+                    {% endfor %}
+            </li>
+            <li>Previous Hash: {{block.previous_hash}}</li>
+        </ul>
+    </li>
+</ul>
+{% endblock %}

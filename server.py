@@ -6,6 +6,8 @@ from blockchain import Blockchain
 
 from flask import Flask, jsonify, request, render_template
 
+import ast
+
 # Instantiate our Node
 app = Flask(__name__)
 
@@ -19,9 +21,9 @@ blockchain = Blockchain()
 def index():
     numberBlock = len(blockchain.chain)
     numberNode = len(blockchain.nodes)+1
-    print (blockchain.chain[-1])
     return render_template('./index.html', numberBlock = numberBlock, numberNode = numberNode)
 
+# Mine
 @app.route('/mine', methods=['GET'])
 def mine():
     # Run proof of work algorithm to get the next proof
@@ -39,56 +41,56 @@ def mine():
 
     # Forge the new Block by adding it to the chain
     block = blockchain.new_block(proof)
+    print (block)
+    return render_template('mine.html', block = block)
 
-    response = {
-        'message': 'New Block Forged',
-        'index': block['index'],
-        'transactions': block['transactions'],
-        'proof': block['proof'],
-        'previous_hash': block['previous_hash'],
-    }
-    return jsonify(response), 200
+
+# New transaction
+@app.route('/transactions/new', methods=['GET'])
+def new_transaction_get():
+    return render_template('./transaction_new.html', flag=0)
+
 
 @app.route('/transactions/new', methods=['POST'])
-def new_transaction():
-    values = request.get_json()
-    print(values)
-    # Check that the required fields are in the POST'ed data
-    required = ['sender', 'recipient', 'amount']
-    if not all(k in values for k in required):
-        return 'Missing parameters', 400
+def new_transaction_post():
+    values = {
+        'sender' : request.form['sender'],
+        'recipient' : request.form['recipient'],
+        'amount' : request.form['amount'],
+    }
 
     # Crate a new transaction
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
-
-    response = {
-        'message': f'Transaction will be added to Block {index}',
-    }
-    return jsonify(response), 201
+    return render_template('./transaction_new.html', flag=1, index=index)
 
 
+# All block
 @app.route('/chain', methods=['GET'])
 def full_chain():
     return render_template('./chain.html', chain=blockchain.chain)
 
 
+# Add nodes
+@app.route('/nodes/register', methods=['GET'])
+def register_get():
+    return render_template('./register.html', flag = 0)
+
+
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
-    values = request.get_json()
-    nodes = values.get('nodes')
+    node = request.form['node']
+    if (not blockchain.register_node(node)):
+        ms = 'Can not add nodes. A node e.g: http://192.168.0.2:5000'
+    else:
+        ms = 'New nodes have been added'
+    print (ms)
+    return render_template('./register.html', flag=1, ms=ms)
 
-    if nodes is None:
-        return "Error: Please supply a valid list of nodes", 400
 
-    for node in nodes:
-        blockchain.register_node(node)
-
-    response = {
-        'message': 'New nodes have been added',
-        'total_nodes': list(blockchain.nodes),
-    }
-    return jsonify(response), 201
-
+@app.route('/nodes/all', methods=['GET'])
+def all_nodes():
+    print (blockchain.nodes )
+    return render_template('./all_nodes.html', nodes=blockchain.nodes)
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
@@ -106,6 +108,9 @@ def consensus():
         }
 
     return jsonify(response), 200
+
+def post_to_json(str):
+    return '{\'' + str.decode("utf-8").replace('=','\':\'').replace('&','\',\'') + '\'}'
 
 
 if __name__ == '__main__':

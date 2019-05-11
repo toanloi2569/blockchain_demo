@@ -19,11 +19,13 @@ class Blockchain(object):
         """
         Add a new node to the list of nodes
         :param address: <str> Address od node (e.g: http://192.168.0.2:5000')
-        :return: None
+        :return: Boolean
         """
-
         parsed_url = urlparse(address)
+        if parsed_url.netloc == '':
+            return (False)
         self.nodes.add(parsed_url.netloc)
+        return True
 
     def new_block(self, proof, previous_hash=None):
         """

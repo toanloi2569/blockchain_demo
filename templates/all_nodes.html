@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>All Nodes</h1> 
+    {% for node in nodes %}
+    <ul>
+        <li><a href="http://{{node}}" target="_blank">Node: {{ loop.index }} : {{node}}</a></li>  
+    </ul>
+    {% endfor %}
+{% endblock %}
