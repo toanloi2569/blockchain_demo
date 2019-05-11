@@ -21,7 +21,7 @@ blockchain = Blockchain()
 def index():
     numberBlock = len(blockchain.chain)
     numberNode = len(blockchain.nodes)+1
-    return render_template('./index.html', numberBlock = numberBlock, numberNode = numberNode)
+    return render_template('./index.html', numberBlock=numberBlock, numberNode=numberNode)
 
 # Mine
 @app.route('/mine', methods=['GET'])
@@ -67,7 +67,7 @@ def new_transaction_post():
 # All block
 @app.route('/chain', methods=['GET'])
 def full_chain():
-    return render_template('./chain.html', chain=blockchain.chain)
+    return render_template('./chain.html', chain=blockchain.chain, flag=0)
 
 
 # Add nodes
@@ -97,20 +97,20 @@ def consensus():
     replaced = blockchain.resolve_conflicts()
 
     if replaced:
-        response = {
-            'message': "Our chain was replaced",
-            'new_chain': blockchain.chain,
-        }
+        ms = 'Our chain was replaced'
     else:
-        response = {
-            'message': 'Our chain is authoritative',
-            'chain': blockchain.chain,
-        }
+        ms = 'Our chain is authoritative'
 
+    return render_template('./chain.html', chain=blockchain.chain, flag=1, ms=ms)
+
+
+@app.route('/chain_json', methods=['GET'])
+def full_chain_json():
+    response = {
+        'chain': blockchain.chain,
+        'length': len(blockchain.chain),
+    }
     return jsonify(response), 200
-
-def post_to_json(str):
-    return '{\'' + str.decode("utf-8").replace('=','\':\'').replace('&','\',\'') + '\'}'
 
 
 if __name__ == '__main__':

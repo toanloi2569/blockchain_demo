@@ -2,6 +2,13 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
+{% if flag!=0 %}
+    <script>
+        alert("{{ms}}")
+    </script>
+{% endif %}
+
 <h1>List block of BlockChain</h1>
 <ul> 
     {% for block in chain %}
