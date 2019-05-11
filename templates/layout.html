@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href= "{{ url_for('static', filename='css/style.css')}}" />
+    <title>My Webpage</title>
+    {% endblock %}
+</head>
+<body>
+    <h1>Welcome</h1>
+    <br>
+    <p>Number of current blocks: {{ numberBlock }}</p>
+    <p>Number of current node: {{ numberNode }}</p>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2008 by <a href="http://domain.invalid/">you</a>.
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<h1>List block of BlockChain</h1>
+<ul>
+    each block in chain    
+        //- li='Index: ' + block.index + 'TimeStamp: ' + block.timestamp + 'Previous Hash: ' + block.previous_hash 
+        li='Block' + block.index
+            ul
+                li='Index: ' + block.index  
+                li='TimeStamp: ' + block.timestamp
+                li='Transactions'
+                ul 
+                    -var count = 1;
+                    li='transaction ' + count++
+                    ul
+                        each transaction in block.transactions
+                            li='Sender: ' + transaction['sender']
+                            li='recipient: ' + transaction['recipient']
+                            li='amout: ' + transaction['amount']
+                li='Previous Hash: ' + block.previous_hash 
+        br
+        hr
+</ul>
