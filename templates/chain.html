@@ -1,0 +1,28 @@
+<h1>List block of BlockChain</h1>
+<ul> 
+    {% for block in chain %}
+        <li> 
+            Block : {{ block.index }}
+            <ul>
+                <li>Index: {{ block.index }}</li>
+                <li>Timestamp: {{block.timestamp}}</li>
+                <li>Transactions: 
+                        {% set count = 1 %}
+                        {% for transaction in block.transactions %}
+                            <ul>
+                                <li>transaction: {{ count }}</li>
+                                {% set count = count+1 %}
+                                <ul>
+                                    <li>Sender: {{transaction['sender']}}</li>
+                                    <li>recipient: {{transaction['recipient']}}</li>
+                                    <li>amount: {{transaction['amount']}}</li>
+                          
+                                </ul>
+                            </ul>
+                        {% endfor %}
+                </li>
+                <li>Previous Hash: {{block.previous_hash}}</li>
+            </ul>
+        </li>
+    {% endfor %}
+</ul>

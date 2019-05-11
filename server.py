@@ -69,11 +69,7 @@ def new_transaction():
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
-    response = {
-        'chain': blockchain.chain,
-        'length': len(blockchain.chain),
-    }
-    return jsonify(response), 200
+    return render_template('./chain.html', chain=blockchain.chain)
 
 
 @app.route('/nodes/register', methods=['POST'])
