@@ -172,5 +172,12 @@ class Blockchain(object):
             return True
         return False
 
+    def getBlockByIndex(index):
+        for block in self.chain:
+            if block.index == index:
+                return block
 
-
+    def getBlockByPreHash(hash):
+        for block in self.chain:
+            if block.previous_hash == hash:
+                return block
