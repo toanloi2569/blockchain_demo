@@ -113,7 +113,7 @@ class Blockchain(object):
 
         guess = f'{last_proof*proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:4] == '0000'
+        return guess_hash[:5] == '00000'
 
     def valid_chain(self, chain):
         """
@@ -152,7 +152,7 @@ class Blockchain(object):
 
         neighbors = self.nodes
         new_chain = None
-
+        print('haha')
         # We're only looking for chains longer than ours
         max_length = len(self.chain)
 
