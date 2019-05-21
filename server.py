@@ -26,6 +26,7 @@ def index():
 # Mine
 @app.route('/mine', methods=['GET'])
 def mine():
+    blockchain.resolve_conflicts()
     # Run proof of work algorithm to get the next proof
     last_block = blockchain.last_block
     last_proof = last_block['proof']
